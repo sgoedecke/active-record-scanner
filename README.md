@@ -12,3 +12,9 @@ This program was inspired by this paper by Junwen Yang: https://newtraell.cs.uch
 
 Unlike the static analysis tools described in the paper, this is (a) written in Ruby and (b) not reliant on a series of regexes.
 
+## Todo
+
+* Improve sexp tree traversal (e.g. avoid mutating the tree in `normalize!`)
+* Improve nested array compacting. Remove that awful loop
+* Add checks for inefficiences other than queries inside loops
+
