@@ -1,10 +1,8 @@
 require 'ripper'
 require_relative './nested_array_compactor'
+require_relative './constants'
 
 class ActiveRecordScanner 
-  AR_METHODS = ['destroy', 'find', 'find_by', 'create']
-  LOOP_METHODS = ['map', 'each']
-
   def initialize(glob)
     @glob = glob
     @array_compactor = NestedArrayCompactor.new
