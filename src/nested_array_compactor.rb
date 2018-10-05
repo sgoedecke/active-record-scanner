@@ -1,6 +1,7 @@
 class NestedArrayCompactor 
-  def deep_compact(n)
 
+  # This is really bad. It works for now but I'd really like to figure out a better way.
+  def deep_compact(n)
     10.times do
       n = deep_compact_with_nesting(strip_nesting(n))
     end
