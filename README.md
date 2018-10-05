@@ -2,4 +2,13 @@
 
 An attempt to write a scanner that detects known ORM performance issues with ActiveRecord (e.g. queries inside inner loops).
 
-`test.rb` is an example of a bad file. `naive_block_scanner` just triggers on AR methods called inside blocks. `ripper_parser` is an attempt to track AR methods called inside _loops_.
+## Usage
+
+`ruby scanner.rb "/full/path/to/file/**/*.rb` will recursively scan a directory for ActiveRecord queries inside loops. Consider replacing with methods that operate on collections: for instance, replace `find_by` inside a loop with a `where` call.
+
+## References
+
+This program was inspired by this paper by Junwen Yang: https://newtraell.cs.uchicago.edu/files/ms_paper/junwen.pdf
+
+Unlike the static analysis tools described in the paper, this is (a) written in Ruby and (b) not reliant on a series of regexes.
+
