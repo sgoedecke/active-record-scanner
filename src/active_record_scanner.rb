@@ -15,8 +15,8 @@ class ActiveRecordScanner
     Dir.glob(@glob).each do |file|
       scan_file(file)
     end
-    puts "\r\n"
-    puts @results.join("\n")
+
+    return @results
   end
 
   private

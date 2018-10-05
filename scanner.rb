@@ -1,3 +1,5 @@
 require_relative './src/active_record_scanner'
 
-ActiveRecordScanner.new(ARGV[0]).scan
+results = ActiveRecordScanner.new(ARGV[0]).scan
+puts "\r\n"
+puts results.join("\n")

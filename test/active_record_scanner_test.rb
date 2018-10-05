@@ -1,11 +1,13 @@
 require_relative '../src/active_record_scanner.rb'
 
 def it_scans_successfully
-  ActiveRecordScanner.new('./test/test_class.rb').scan
+  results = ActiveRecordScanner.new('./test/test_class.rb').scan
+  raise "Unexpected result: #{result}" unless results.length == 1 
 end
 
 def it_ignores_empty_globs
-  ActiveRecordScanner.new('').scan
+  results = ActiveRecordScanner.new('').scan
+  raise "Unexpected result: #{result}" unless results.length == 0
 end
 
 it_scans_successfully
