@@ -1,46 +1,13 @@
 require 'ripper'
+require_relative './nested_array_compactor'
 
-class HashProcessor
-  def deep_compact(n)
-
-    10.times do
-      n = deep_compact_with_nesting(strip_nesting(n))
-    end
-    n
-  end
-
-  private
-  
-  def deep_compact_with_nesting(n)
-    if n.respond_to? :compact
-      n.compact.map{ |c| deep_compact_with_nesting(c) }
-    else
-      n
-    end
-  end
-
-  def strip_nesting(n)
-    if n.is_a?(Array)
-      if n.length == 0
-        return nil
-      elsif n.length == 1
-        return strip_nesting(n.first)
-      else
-        return n.map{ |n| strip_nesting(n) }
-      end
-    else
-      return n
-    end
-  end
-end
-
-class QueryScanner
+class ActiveRecordScanner 
   AR_METHODS = ['destroy', 'find', 'find_by', 'create']
   LOOP_METHODS = ['map', 'each']
 
   def initialize(glob)
     @glob = glob
-    @hash_processor = HashProcessor.new
+    @array_compactor = NestedArrayCompactor.new
     @results = []
   end
 
@@ -61,7 +28,7 @@ class QueryScanner
     raw_tree = Ripper.sexp(raw)
     return unless raw_tree # if the file isn't valid ruby, ignore it
     filtered_tree = filter(raw_tree)
-    compact_tree = @hash_processor.deep_compact(filtered_tree) 
+    compact_tree = @array_compactor.deep_compact(filtered_tree) 
     return unless compact_tree # if the file has no queries or loops, ignore it
     normalise!(compact_tree)
     traverse(compact_tree)
@@ -131,6 +98,5 @@ class QueryScanner
 end
 
 
-QueryScanner.new(ARGV[0]).scan
 
 
