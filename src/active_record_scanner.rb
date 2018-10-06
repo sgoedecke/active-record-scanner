@@ -25,8 +25,9 @@ class ActiveRecordScanner
     scan_for_errors(compact_tree)
   end
 
-  def report_error(node)
-    @results << "#{@file} -- found a db query in a loop: #{node}"
+  def report_error(error)
+    node = error.last
+    @results << "#{@file} (line #{node[2][1]} column #{node[2][0]}) -- called query method '##{node[1]}' in a loop"
   end
 
   def scan_for_errors(node, inside_loop = false)

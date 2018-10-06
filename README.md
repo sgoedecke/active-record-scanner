@@ -1,6 +1,6 @@
-# Rails ORM scanner
+# Active Record Scanner 
 
-An attempt to write a scanner that detects known ORM performance issues with ActiveRecord (e.g. queries inside inner loops).
+A static analysis tool that detects known ORM performance issues with ActiveRecord (e.g. queries inside inner loops).
 
 ## Usage
 
@@ -12,9 +12,9 @@ sgoedecke:parser/ (master) $ ./scanner.rb
 Usage: ruby scanner.rb [options] [full-path]
     -s, --silent                     Suppress dot reporting in output
 
-sgoedecke:parser/ (master) $ ./scanner.rb ./spec/fixtures/test_class.rb
+sgoedecke:parser/ (master*) $ ./scanner.rb ./spec/fixtures/test_class.rb 
 .
-./spec/fixtures/test_class.rb -- found a db query in a loop: [:query, "[:@ident, \"destroy\", [4, 24]]"]
+./spec/fixtures/test_class.rb (line 24 column 4) -- called query method '#destroy' in a loop
 ```
 
 ## Development

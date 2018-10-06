@@ -30,22 +30,18 @@ class Parser
     node[0] == :@ident && LOOP_METHODS.include?(node[1])
   end
 
-  def node_key(node)
-    node.to_s 
-  end
-
   # walk the tree and return a new tree with all nodes that aren't
   # loops, blocks or queries turned to `nil`
   def filter(new_tree = [], tree)
     tree.map.with_index do |node, i|
       if node.is_a?(Array) # we only care about non-leaf nodes
         if is_loop?(node)
-          [ :loop, node_key(node), nil ]
+          [ :loop, node, nil ]
         elsif is_block?(node)
-          [ :block, node_key(node), filter(node)]
+          [ :block, node, filter(node)]
         elsif is_query?(node)
           # if the current node is a query, return it
-          [:query, node.to_s] 
+          [:query, node] 
         elsif node
           filter(node)
         end
