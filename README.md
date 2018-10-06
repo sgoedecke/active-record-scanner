@@ -6,6 +6,17 @@ An attempt to write a scanner that detects known ORM performance issues with Act
 
 `ruby scanner.rb "/full/path/to/file/**/*.rb` will recursively scan a directory for ActiveRecord queries inside loops. Consider replacing with methods that operate on collections: for instance, replace `find_by` inside a loop with a `where` call.
 
+Example:
+```
+sgoedecke:parser/ (master) $ ./scanner.rb
+Usage: ruby scanner.rb [options] [full-path]
+    -s, --silent                     Suppress dot reporting in output
+
+sgoedecke:parser/ (master) $ ./scanner.rb ./spec/fixtures/test_class.rb
+.
+./spec/fixtures/test_class.rb -- found a db query in a loop: [:query, "[:@ident, \"destroy\", [4, 24]]"]
+```
+
 ## Development
 
 Run the tests with `rspec`. You'll need to `bundle` first.
