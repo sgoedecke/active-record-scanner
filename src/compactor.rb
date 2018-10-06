@@ -2,7 +2,7 @@ class Compactor
 
   # This is really bad. It works for now but I'd really like to figure out a better way.
   def deep_compact(n)
-    10.times do
+    10.times do # won't work if we get a tree with >10 depth
       n = deep_compact_with_nesting(strip_nesting(n))
     end
     n
