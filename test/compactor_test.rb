@@ -1,7 +1,7 @@
-require_relative "../src/nested_array_compactor.rb"
+require_relative "../src/compactor.rb"
 
 def it_compacts_a_nested_array 
-  result = NestedArrayCompactor.new.deep_compact([
+  result = Compactor.new.deep_compact([
     nil, nil,
     [nil, [:foo, :bar, nil],
      [[nil, 1]]]

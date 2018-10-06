@@ -7,7 +7,5 @@ class FooController
 
   def good 
     ActiveRecordClass.destroy(stuff_key)
-    
-    10.times { ActiveRecordClass.destroy }
   end
 end

@@ -1,4 +1,4 @@
-class NestedArrayCompactor 
+class Compactor 
 
   # This is really bad. It works for now but I'd really like to figure out a better way.
   def deep_compact(n)

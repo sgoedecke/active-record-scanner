@@ -1,11 +1,9 @@
-require 'ripper'
-require_relative './nested_array_compactor'
 require_relative './constants'
+require_relative './parser'
 
 class ActiveRecordScanner 
   def initialize(glob)
     @glob = glob
-    @array_compactor = NestedArrayCompactor.new
     @results = []
   end
 
@@ -13,8 +11,7 @@ class ActiveRecordScanner
     Dir.glob(@glob).each do |file|
       scan_file(file)
     end
-
-    return @results
+    @results
   end
 
   private
@@ -23,75 +20,26 @@ class ActiveRecordScanner
     print "."
     @file = file
     raw = IO.binread(file)
-    raw_tree = Ripper.sexp(raw)
-    return unless raw_tree # if the file isn't valid ruby, ignore it
-    filtered_tree = filter(raw_tree)
-    compact_tree = @array_compactor.deep_compact(filtered_tree) 
-    return unless compact_tree # if the file has no queries or loops, ignore it
-    normalise!(compact_tree)
-    traverse(compact_tree)
+    compact_tree = Parser.new(raw).parse
+    scan_for_errors(compact_tree) if compact_tree
   end
 
-  def is_block?(node)
-    [:brace_block, :do_block].include?(node[0])
+  def report_error(node)
+    @results << "#{@file} -- found a db query in a loop: #{node}"
   end
 
-  def is_query?(node)
-    node[0] == :@ident && AR_METHODS.include?(node[1])
-  end
+  def scan_for_errors(node, inside_loop = false)
+    return unless node.is_a?(Array) # don't traverse into raw values
 
-  def is_loop?(node)
-    node[0] == :@ident && LOOP_METHODS.include?(node[1])
-  end
+    # if there's a loop higher up in the tree, set the flag
+    # TODO: turn this into a counter to flag queries inside inner loops as more serious
+    inside_loop = true if node[0] == :lblock
 
-  def node_key(node)
-    "key"
-  end
+    report_error(node) if node[0] == :query && inside_loop
 
-  def filter(new_tree = [], tree)
-    tree.map.with_index do |node, i|
-      if node.is_a?(Array) # we only care about non-leaf nodes
-        if is_loop?(node)
-          [ :loop, node_key(node), nil ]
-        elsif is_block?(node)
-          [ :block, node_key(node), filter(node)]
-        elsif is_query?(node)
-          # if the current node is a query, return it
-          [:query, node.to_s] 
-        elsif node
-          filter(node)
-        end
-      end
+    node.each do |child|
+      scan_for_errors(child, inside_loop)
     end
-  end
-
-  def normalise!(tree)
-    tree.each.with_index do |node, i|
-      if node.is_a?(Array)
-        if node.first == :loop
-          tree[i+1][0] = :lblock if tree[i+1]
-        end
-        tree[i] = normalise!(node)
-      end
-    end
-    tree
-  end
-
-  def traverse(node, inside_block = false)
-    if node.is_a?(Array) # don't traverse into raw values
-      # check for nodes we care about
-      inside_block = node if node[0] == :lblock 
-
-      if node[0] == :query && inside_block
-        @results << "#{@file} -- found a db query in a loop: #{node}"
-      end
-
-      # keep going
-      node.each do |child|
-        traverse(child, inside_block)
-      end
-    end
-    return
   end
 end
 
