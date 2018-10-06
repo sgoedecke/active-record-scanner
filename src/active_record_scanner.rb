@@ -2,8 +2,9 @@ require_relative './constants'
 require_relative './parser'
 
 class ActiveRecordScanner 
-  def initialize(glob)
+  def initialize(glob, options)
     @glob = glob
+    @options = options
     @results = []
   end
 
@@ -17,7 +18,7 @@ class ActiveRecordScanner
   private
 
   def scan_file(file)
-    print "."
+    print "." unless @options[:silent]
     @file = file
     raw = IO.binread(file)
     compact_tree = Parser.new(raw).parse
