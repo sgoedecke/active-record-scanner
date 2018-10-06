@@ -23,7 +23,7 @@ Run the tests with `rspec`. You'll need to `bundle` first.
 
 ## References
 
-This program was inspired by this paper by Junwen Yang: https://newtraell.cs.uchicago.edu/files/ms_paper/junwen.pdf
+This tool was inspired by this paper by Junwen Yang: https://newtraell.cs.uchicago.edu/files/ms_paper/junwen.pdf
 
 Unlike the static analysis tools described in the paper, this is (a) written in Ruby and (b) not reliant on a series of regexes.
 
@@ -32,6 +32,7 @@ Unlike the static analysis tools described in the paper, this is (a) written in 
 * Improve sexp tree traversal (e.g. avoid mutating the tree in `normalize!`)
 * Improve nested array compacting. Remove that awful loop
 * Add checks for inefficiences other than queries inside loops
+* Add a homebrew formula for easier use
 
 Contributions are welcome.
 

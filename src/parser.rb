@@ -9,10 +9,10 @@ class Parser
 
   def parse
     raw_tree = Ripper.sexp(@raw)
-    return unless raw_tree # if the file isn't valid ruby, ignore it
+    return [] unless raw_tree # if the file isn't valid ruby, ignore it
     filtered_tree = filter(raw_tree)
     compact_tree = @compactor.deep_compact(filtered_tree) 
-    return unless compact_tree # if the file has no queries or loops, ignore it
+    return [] unless compact_tree # if the file has no queries or loops, ignore it
     normalise!(compact_tree)
   end
 

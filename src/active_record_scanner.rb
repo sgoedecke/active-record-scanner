@@ -2,7 +2,7 @@ require_relative './constants'
 require_relative './parser'
 
 class ActiveRecordScanner 
-  def initialize(glob, options)
+  def initialize(glob, options={})
     @glob = glob
     @options = options
     @results = []
@@ -22,7 +22,7 @@ class ActiveRecordScanner
     @file = file
     raw = IO.binread(file)
     compact_tree = Parser.new(raw).parse
-    scan_for_errors(compact_tree) if compact_tree
+    scan_for_errors(compact_tree)
   end
 
   def report_error(node)
