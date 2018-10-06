@@ -1,6 +1,4 @@
-require_relative "../src/compactor.rb"
-
-describe 'compactor' do
+describe Compactor do
   it 'compacts_a_nested_array' do
     result = Compactor.new.deep_compact([
       nil, nil,

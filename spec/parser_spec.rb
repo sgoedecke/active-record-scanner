@@ -1,6 +1,4 @@
-require_relative "../src/parser.rb"
-
-describe 'parser' do
+describe Parser do
   it 'filters the generated sexp tree' do
     text = <<-TXT
       class FooController

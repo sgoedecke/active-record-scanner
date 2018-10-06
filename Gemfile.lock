@@ -1,7 +1,13 @@
+PATH
+  remote: .
+  specs:
+    active_record_scanner (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.3)
+    rake (10.5.0)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
       rspec-expectations (~> 3.8.0)
@@ -20,7 +26,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  rspec
+  active_record_scanner!
+  bundler (~> 1.16)
+  rake (~> 10.0)
+  rspec (~> 3.0)
 
 BUNDLED WITH
    1.16.1

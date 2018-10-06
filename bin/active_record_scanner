@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative './src/active_record_scanner'
+require 'active_record_scanner'
 require 'optionparser'
 
 options = {}
@@ -14,7 +14,7 @@ end
 option_parser.parse!
 
 if ARGV[0]
-  results = ActiveRecordScanner.new(ARGV[0], options).scan
+  results = ActiveRecordScanner::Scanner.new(ARGV[0], options).scan
   puts "\r\n" unless options[:silent]
   puts results.join("\n")
 else

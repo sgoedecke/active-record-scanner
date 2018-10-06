@@ -1,5 +1,4 @@
 class Compactor 
-
   # This is really bad. It works for now but I'd really like to figure out a better way.
   def deep_compact(n)
     10.times do # won't work if we get a tree with >10 depth

@@ -1,5 +1,5 @@
 require 'ripper'
-require_relative './compactor'
+require 'active_record_scanner/compactor'
 
 class Parser
   def initialize(raw)

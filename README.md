@@ -2,24 +2,24 @@
 
 A static analysis tool that detects known ORM performance issues with ActiveRecord (e.g. queries inside inner loops).
 
+## Installation
+
+    $ gem install active_record_scanner
+
 ## Usage
 
-`ruby scanner.rb "/full/path/to/file/**/*.rb` will recursively scan a directory for ActiveRecord queries inside loops. Consider replacing with methods that operate on collections: for instance, replace `find_by` inside a loop with a `where` call.
+`active_record_scanner "/full/path/to/file/**/*.rb` will recursively scan a directory for ActiveRecord queries inside loops. Consider replacing with methods that operate on collections: for instance, replace `find_by` inside a loop with a `where` call.
 
 Example:
 ```
-sgoedecke:parser/ (master) $ ./scanner.rb
-Usage: ruby scanner.rb [options] [full-path]
-    -s, --silent                     Suppress dot reporting in output
-
-sgoedecke:parser/ (master*) $ ./scanner.rb ./spec/fixtures/test_class.rb 
+sgoedecke:parser/ (master*) $ active_record_scanner ./spec/fixtures/test_class.rb 
 .
 ./spec/fixtures/test_class.rb (line 24 column 4) -- called query method '#destroy' in a loop
 ```
 
 ## Development
 
-Run the tests with `rspec`. You'll need to `bundle` first.
+Run the tests with `rake`.
 
 ## References
 
