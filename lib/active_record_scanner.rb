@@ -12,20 +12,21 @@ module ActiveRecordScanner
 
     def scan
       Dir.glob(@glob).each do |file|
-        scan_file(file)
+        print "." unless @options[:silent]
+        @file = file
+        raw = IO.binread(file)
+        scan_file(raw)
       end
       @results
     end
 
-    private
-
-    def scan_file(file)
-      print "." unless @options[:silent]
-      @file = file
-      raw = IO.binread(file)
+    def scan_file(raw)
       compact_tree = Parser.new(raw).parse
       scan_for_errors(compact_tree)
+      @results
     end
+
+    private
 
     def report_error(error)
       node = error.last

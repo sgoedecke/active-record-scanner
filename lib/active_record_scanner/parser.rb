@@ -54,8 +54,13 @@ class Parser
   def normalise!(tree)
     tree.each.with_index do |node, i|
       if node.is_a?(Array)
-        if node.first == :loop
-          tree[i+1][0] = :lblock if tree[i+1]
+        if node.first == :loop && tree[i+1]
+          key = tree[i+1][0]
+          if key == :block
+            tree[i+1][0] = :lblock
+          elsif key == :query # wrap queries like `c.each(&:destroy)` 
+            tree[i+1] = [:lblock, tree[i+1]]
+          end
         end
         tree[i] = normalise!(node)
       end
